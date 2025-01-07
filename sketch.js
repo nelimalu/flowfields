@@ -8,31 +8,40 @@ class Particle{
     this.y=random(-height/20,height/20);
     this.negative = int(random(0,2))*2-1
     this.prevVector=0;
+    this.prevX=this.x;
+    this.prevY=this.y;
   }
   
   display(){
-    fill(255,0,0);
-    ellipse(this.x*10,this.y*10,3,3);
+    //fill(100*this.x/40+100,100*this.y/25+100,this.prevVector+100);
+    //fill(255);  
+    stroke(100*this.x/40+100,100*this.y/25+100,this.prevVector+100);
+    strokeWeight(5);
+    line(10*this.x,10*this.y,this.prevX*10,this.prevY*10); 
+    //ellipse(this.x*10,this.y*10,3,3);
   }
   
   update(){
     if(abs(-1*noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector)>abs(noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector)){
         this.negative=1;
-        //console.log("flip")
     }else if(abs(-1*noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector)<abs(noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector)){
         this.negative=-1;
     }
     //console.log(noiseMap[int((this.x+width/20))][int((this.y+height/20))])
     //console.log(abs(this.negative*noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector),abs(noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector))
-
+    this.prevX=this.x;
+    this.prevY=this.y;
     this.prevVector = this.negative*noiseMap[int((this.x+width/20))][int((this.y+height/20))];
-    this.x+=this.negative*cos(noiseMap[int((this.x+width/20))][int((this.y+height/20))])/5;
-    this.y+=this.negative*sin(noiseMap[int((this.x+width/20))][int((this.y+height/20))])/5;
+    this.x+=this.negative*cos(noiseMap[int((this.x+width/20))][int((this.y+height/20))])/2;
+    this.y+=this.negative*sin(noiseMap[int((this.x+width/20))][int((this.y+height/20))])/2;
     
-    if(this.x>40 || this.x<-40 || this.y<-25 || this.y>25){
+    if(this.x>width/20 || this.x<-width/20 || this.y<-height/20 || this.y>height/20){
         this.x=random(-width/20,width/20);
         this.y=random(-height/20,height/20);
+        this.prevX=this.x;
+        this.prevY=this.y;
     }
+    
     
     //console.log(this.prevVector);
   }
@@ -43,7 +52,7 @@ function setup() {
     createCanvas(width, height);
     rectMode(CENTER);
     angleMode(DEGREES); 
-    noStroke();
+    //noStroke();
     noiseMap = [];
     particles = [];
     particleCount=1000;
@@ -57,7 +66,7 @@ function setup() {
     slopeLines();
 }
 function draw() {
-    background(0,5);
+    background(0,50);
     display();
 }
 
@@ -79,9 +88,10 @@ function slopeLines(){
   for(let i=-width/20;i<width/20;i+=1){
     for(let j=-height/20;j<height/20;j+=1){
       push();
-      translate(i,j);
+      translate(i*20,j*20);
       rotate(atan(slopeEquation(i,j)));
-      noiseMap[(i+width/20)][(j+height/20)]=atan(slopeEquation(i,j));
+      noiseMap[(i+width/20)][(j+height/20)]=atan(slopeEquation(i,j))+noise(i,j)*100-50;
+      stroke(255);
       //line(-4,0,4,0);
       pop();
     }
@@ -89,7 +99,7 @@ function slopeLines(){
 }
 
 function slopeEquation(x,y){
-  let slope = y/x
+  let slope = -x/y
   return slope;
 }
 
