@@ -90,7 +90,7 @@ function slopeLines(){
       push();
       translate(i*20,j*20);
       rotate(atan(slopeEquation(i,j)));
-      noiseMap[(i+width/20)][(j+height/20)]=atan(slopeEquation(i,j))+noise(i,j)*100-50;
+      noiseMap[(i+width/20)][(j+height/20)]=atan(slopeEquation(i,j))/*+noise(i,j)*100-50*/;
       stroke(255);
       //line(-4,0,4,0);
       pop();
@@ -99,7 +99,7 @@ function slopeLines(){
 }
 
 function slopeEquation(x,y){
-  let slope = -x/y
+  let slope = x + y
   return slope;
 }
 
