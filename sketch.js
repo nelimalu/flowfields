@@ -10,18 +10,32 @@ class Particle{
     this.prevVector=0;
     this.prevX=this.x;
     this.prevY=this.y;
+    this.finished=false;
+    this.timer=100;
   }
   
   display(){
     //fill(100*this.x/40+100,100*this.y/25+100,this.prevVector+100);
     //fill(255);  
     stroke(100*this.x/40+100,100*this.y/25+100,this.prevVector+100);
-    strokeWeight(5);
+    //stroke(map(this.y,-height/20,height/20,33,255),map(this.y,-height/20,height/20,66,158),map(this.y,-height/20,height/20,156,0)) 
+    //console.log(map(this.x,-width/2,width/2,0,255));
+    strokeWeight(3);
     line(10*this.x,10*this.y,this.prevX*10,this.prevY*10); 
     //ellipse(this.x*10,this.y*10,3,3);
   }
   
   update(){
+    this.timer--;
+    if(this.timer<=0){
+        this.x=random(-width/20,width/20);
+        this.y=random(-height/20,height/20);
+        this.prevX=this.x;
+        this.prevY=this.y;
+        this.timer=100;
+        this.finished=false;
+        return;
+    }
     if(abs(-1*noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector)>abs(noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector)){
         this.negative=1;
     }else if(abs(-1*noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector)<abs(noiseMap[int((this.x+width/20))][int((this.y+height/20))]-this.prevVector)){
@@ -32,14 +46,16 @@ class Particle{
     this.prevX=this.x;
     this.prevY=this.y;
     this.prevVector = this.negative*noiseMap[int((this.x+width/20))][int((this.y+height/20))];
-    this.x+=this.negative*cos(noiseMap[int((this.x+width/20))][int((this.y+height/20))])/2;
-    this.y+=this.negative*sin(noiseMap[int((this.x+width/20))][int((this.y+height/20))])/2;
+    this.x+=this.negative*cos(noiseMap[int((this.x+width/20))][int((this.y+height/20))])/10;
+    this.y+=this.negative*sin(noiseMap[int((this.x+width/20))][int((this.y+height/20))])/10;
     
     if(this.x>width/20 || this.x<-width/20 || this.y<-height/20 || this.y>height/20){
-        this.x=random(-width/20,width/20);
-        this.y=random(-height/20,height/20);
-        this.prevX=this.x;
-        this.prevY=this.y;
+        
+        // this.x=random(-width/20,width/20);
+        // this.y=random(-height/20,height/20);
+        // this.prevX=this.x;
+        // this.prevY=this.y;
+        this.finished=true;
     }
     
     
@@ -55,7 +71,7 @@ function setup() {
     //noStroke();
     noiseMap = [];
     particles = [];
-    particleCount=1000;
+    particleCount=100;
     for(let i=0;i<width/2+1;i++){
         noiseMap[i]=[];
     }
@@ -66,7 +82,7 @@ function setup() {
     slopeLines();
 }
 function draw() {
-    background(0,50);
+    background(0,0);
     display();
 }
 
@@ -78,8 +94,12 @@ function display(){
   //line(0,-width,0,height);
   
   for(let i=0;i<particleCount;i++){
+    if(particles[i].finished){
+        continue;
+    }
     particles[i].update();
     particles[i].display();
+    
   }
   pop();  
 }
@@ -99,7 +119,7 @@ function slopeLines(){
 }
 
 function slopeEquation(x,y){
-  let slope = x + y
+  let slope = Math.sinh(x)*Math.tanh(y)
   return slope;
 }
 
