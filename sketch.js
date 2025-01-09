@@ -4,8 +4,8 @@ let width,height;
 let particleCount;
 class Particle{
   constructor(){
-    this.x=random(-width/20,width/20);
-    this.y=random(-height/20,height/20);
+    this.x=int(random(-width/100,width/100))*5;
+    this.y=int(random(-height/100,height/100))*5;
     this.negative = int(random(0,2))*2-1
     this.prevVector=0;
     this.prevX=this.x;
@@ -17,8 +17,10 @@ class Particle{
   display(){
     //fill(100*this.x/40+100,100*this.y/25+100,this.prevVector+100);
     //fill(255);  
-    stroke(100*this.x/40+100,100*this.y/25+100,this.prevVector+100);
-    //stroke(map(this.y,-height/20,height/20,33,255),map(this.y,-height/20,height/20,66,158),map(this.y,-height/20,height/20,156,0)) 
+    //stroke(100*this.x/40+100,100*this.y/25+100,this.prevVector+100);
+    //stroke(map(this.y,-height/20,height/20,33,255),map(this.y,-height/20,height/20,66,158)+map(-abs(this.x),-2,0,100,150),map(this.y,-height/20,height/20,156,0)) 
+    stroke(0,map(this.y,-height/20,height/20,66,158)+map(-abs(this.x),-3/4,0,100,150),map(-abs(this.y),-height/20,-5,0,50)) 
+
     //console.log(map(this.x,-width/2,width/2,0,255));
     strokeWeight(3);
     line(10*this.x,10*this.y,this.prevX*10,this.prevY*10); 
@@ -28,11 +30,14 @@ class Particle{
   update(){
     this.timer--;
     if(this.timer<=0){
-        this.x=random(-width/20,width/20);
-        this.y=random(-height/20,height/20);
+        //this.x=random(-width/20,width/20);
+        //this.y=random(-height/20,height/20);
+        this.x=int(random(-width/100,width/100))*5;
+        this.y=int(random(-height/100,height/100))*5;
         this.prevX=this.x;
         this.prevY=this.y;
         this.timer=100;
+        //this.finished=false;
         this.finished=false;
         return;
     }
@@ -71,7 +76,7 @@ function setup() {
     //noStroke();
     noiseMap = [];
     particles = [];
-    particleCount=100;
+    particleCount=1000;
     for(let i=0;i<width/2+1;i++){
         noiseMap[i]=[];
     }
@@ -82,7 +87,7 @@ function setup() {
     slopeLines();
 }
 function draw() {
-    background(0,0);
+    background(0,5);
     display();
 }
 
@@ -119,7 +124,7 @@ function slopeLines(){
 }
 
 function slopeEquation(x,y){
-  let slope = Math.sinh(x)*Math.tanh(y)
+  let slope = -x*y/2
   return slope;
 }
 
