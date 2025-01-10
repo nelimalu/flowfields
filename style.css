@@ -11,4 +11,5 @@ canvas {
   display: block;
   margin: 5vh;
   box-shadow: 0px 0px 10px black;
+/*  filter: blur(2px);*/
 }
