@@ -56,7 +56,7 @@ class Particle {
 		//noStroke();
 		// ellipse(this.x, this.y, 1, 1);
 		let angle = atan2(this.prev_y - this.y, this.prev_x - this.x);
-		let distance = dist(this.x, this.y, this.prev_x, this.prev_y) - 1;
+		let distance = dist(this.x, this.y, this.prev_x, this.prev_y) - 0.5;
 		let x2 = this.prev_x + cos(angle) * distance;
 		let y2 = this.prev_y + sin(angle) * distance;
 		line(this.prev_x, this.prev_y, x2, y2);

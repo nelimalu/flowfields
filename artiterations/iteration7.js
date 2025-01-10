@@ -1,13 +1,16 @@
 const PIXEL_SIZE = 30;
-const OCTAVE = 2;
-const NUM_PARTICLES = 10000;
+const OCTAVE = 5;
+// const NUM_PARTICLES = 10000;
+const DENSITY = 10;
 
 const PARTICLE_MAG = 3;
-const VECTOR_MAG = PARTICLE_MAG / 10;
+const VECTOR_MAG = PARTICLE_MAG / 3;
 
 const particles = [];
 
 var OFFSET = 0;
+const START = Date.now();
+const END = 5000;
 
 
 class Particle {
@@ -51,9 +54,17 @@ class Particle {
 		this.set_y(this.y + this.velocity.y);
 	}
 
+	opacity() {
+		return 255//map(Date.now() - START, 0, END, 100, 255);
+	}
+
+	thickness() {
+		return map(Date.now() - START, 0, END, 0, 5);
+	}
+
 	draw() {
-		stroke(255,255,255,8);
-		strokeWeight(3);
+		stroke(255,255,255, this.opacity());
+		strokeWeight(this.thickness());
 		//noStroke();
 		// ellipse(this.x, this.y, 1, 1);
 		let angle = atan2(this.prev_y - this.y, this.prev_x - this.x);
@@ -66,8 +77,10 @@ class Particle {
 
 
 function generate_particles() {
-	for (let i = 0; i < NUM_PARTICLES; i++) {
-		particles.push(new Particle(random() * windowWidth, random() * windowHeight))
+	for (let i = 0; i < windowWidth / DENSITY; i++) {
+		for (let j = 0; j < windowHeight / DENSITY; j++) {
+			particles.push(new Particle(i * DENSITY, j * DENSITY))
+		}
 	}
 }
 
@@ -82,6 +95,8 @@ function setup() {
 function draw() {
 	//background(255,255,255);
 	//OFFSET++;
+	if (Date.now() - START > END)
+		noLoop();
 
 	for (let particle of particles) {
 		particle.move();

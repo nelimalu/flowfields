@@ -1,13 +1,15 @@
 const PIXEL_SIZE = 30;
-const OCTAVE = 2;
-const NUM_PARTICLES = 10000;
+const OCTAVE = 20;
+const NUM_PARTICLES = 100;
 
 const PARTICLE_MAG = 3;
-const VECTOR_MAG = PARTICLE_MAG / 10;
+const VECTOR_MAG = PARTICLE_MAG / 20;
 
 const particles = [];
 
 var OFFSET = 0;
+const START = Date.now();
+const END = 1000;
 
 
 class Particle {
@@ -51,16 +53,16 @@ class Particle {
 		this.set_y(this.y + this.velocity.y);
 	}
 
+	thickness() {
+		return map(Date.now() - START, 0, END, 10, 1);
+	}
+
 	draw() {
-		stroke(255,255,255,8);
-		strokeWeight(3);
+		stroke(255,255,255,255);
+		strokeWeight(this.thickness());
 		//noStroke();
 		// ellipse(this.x, this.y, 1, 1);
-		let angle = atan2(this.prev_y - this.y, this.prev_x - this.x);
-		let distance = dist(this.x, this.y, this.prev_x, this.prev_y) - 0.5;
-		let x2 = this.prev_x + cos(angle) * distance;
-		let y2 = this.prev_y + sin(angle) * distance;
-		line(this.prev_x, this.prev_y, x2, y2);
+		line(this.prev_x, this.prev_y, this.x, this.y);
 	}
 }
 
@@ -82,6 +84,8 @@ function setup() {
 function draw() {
 	//background(255,255,255);
 	//OFFSET++;
+	if (Date.now() - START > END)
+		noLoop();
 
 	for (let particle of particles) {
 		particle.move();

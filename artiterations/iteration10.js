@@ -1,13 +1,28 @@
 const PIXEL_SIZE = 30;
-const OCTAVE = 2;
-const NUM_PARTICLES = 10000;
+const OCTAVE = 50;
+// const NUM_PARTICLES = 10000;
+const DENSITY = 50;
+const RADIUS = 2;
 
 const PARTICLE_MAG = 3;
-const VECTOR_MAG = PARTICLE_MAG / 10;
+const VECTOR_MAG = PARTICLE_MAG / 3;
 
 const particles = [];
+const drawn_particles = [];
 
 var OFFSET = 0;
+
+
+function get_colour(x, y) {
+	let j = x / windowWidth;
+	let k = y / windowHeight;
+
+	let r = j * 255;
+	let g = 200;
+	let b = k * 255;
+
+	return [r, g, b]; 
+}
 
 
 class Particle {
@@ -16,8 +31,9 @@ class Particle {
 		this.set_y(y);
 		this.prev_x = this.x;
 		this.prev_y = this.y;
-		this.velocity = p5.Vector.random2D();
+		this.velocity = this.get_vector();//p5.Vector.random2D();
 		this.velocity.setMag(PARTICLE_MAG);
+		this.colour = get_colour(this.x, this.y);
 	}
 
 	set_x(new_position) {
@@ -51,23 +67,26 @@ class Particle {
 		this.set_y(this.y + this.velocity.y);
 	}
 
+
 	draw() {
-		stroke(255,255,255,8);
-		strokeWeight(3);
-		//noStroke();
-		// ellipse(this.x, this.y, 1, 1);
+
+		stroke(...this.colour,255);
+		strokeWeight(5);
 		let angle = atan2(this.prev_y - this.y, this.prev_x - this.x);
 		let distance = dist(this.x, this.y, this.prev_x, this.prev_y) - 0.5;
 		let x2 = this.prev_x + cos(angle) * distance;
 		let y2 = this.prev_y + sin(angle) * distance;
 		line(this.prev_x, this.prev_y, x2, y2);
+
 	}
 }
 
 
 function generate_particles() {
-	for (let i = 0; i < NUM_PARTICLES; i++) {
-		particles.push(new Particle(random() * windowWidth, random() * windowHeight))
+	for (let i = 0; i < windowWidth / DENSITY; i++) {
+		for (let j = 0; j < windowHeight / DENSITY; j++) {
+			particles.push(new Particle(i * DENSITY, j * DENSITY))
+		}
 	}
 }
 

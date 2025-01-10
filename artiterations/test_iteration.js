@@ -1,8 +1,8 @@
 const PIXEL_SIZE = 30;
 const OCTAVE = 15;
-const NUM_PARTICLES = 1000;
+const NUM_PARTICLES = 100;
 
-const VECTOR_MAG = 1;
+const VECTOR_MAG = 5;
 const PARTICLE_MAG = 5;
 
 const pixels = [];
@@ -113,16 +113,16 @@ function generate_particles() {
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 
-	//generate_pixels();
+	generate_pixels();
 	generate_particles();
 }
 
 function draw() {
 	background(255,255,255);
 
-	// for (let pixel of pixels) {
-	// 	pixel.draw();
-	// }
+	for (let pixel of pixels) {
+		pixel.draw();
+	}
 
 	for (let particle of particles) {
 		particle.move();

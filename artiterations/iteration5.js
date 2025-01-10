@@ -1,6 +1,6 @@
 const PIXEL_SIZE = 30;
 const OCTAVE = 2;
-const NUM_PARTICLES = 10000;
+const NUM_PARTICLES = 15000;
 
 const PARTICLE_MAG = 3;
 const VECTOR_MAG = PARTICLE_MAG / 10;
@@ -8,6 +8,18 @@ const VECTOR_MAG = PARTICLE_MAG / 10;
 const particles = [];
 
 var OFFSET = 0;
+
+
+function get_colour(x, y) {
+	let j = x / windowWidth;
+	let k = y / windowHeight;
+
+	let r = j * 255;
+	let g = 200;
+	let b = k * 255;
+
+	return [r, g, b]; 
+}
 
 
 class Particle {
@@ -18,6 +30,7 @@ class Particle {
 		this.prev_y = this.y;
 		this.velocity = p5.Vector.random2D();
 		this.velocity.setMag(PARTICLE_MAG);
+		this.colour = get_colour(this.x, this.y);
 	}
 
 	set_x(new_position) {
@@ -52,8 +65,9 @@ class Particle {
 	}
 
 	draw() {
-		stroke(255,255,255,8);
-		strokeWeight(3);
+
+		stroke(...this.colour, 10);
+		strokeWeight(1);
 		//noStroke();
 		// ellipse(this.x, this.y, 1, 1);
 		let angle = atan2(this.prev_y - this.y, this.prev_x - this.x);
@@ -76,7 +90,15 @@ function setup() {
 	createCanvas(windowWidth, windowHeight);
 
 	generate_particles();
-	background(0,0,0);
+	background(255,255,255);
+
+	// for (let i = 0; i < windowWidth; i++) {
+	// 	for (let j = 0; j < windowHeight; j++) {
+	// 		set(i, j, color(...get_colour(i, j)));
+	// 	}
+	// }
+
+	updatePixels();
 }
 
 function draw() {
