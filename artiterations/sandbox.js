@@ -142,10 +142,12 @@ class Particle{
 
 
 let alpha=5;
+let cnv;
 function setup() {
     width = 800;    
     height = 500;
-    createCanvas(width, height);
+    cnv=createCanvas(width, height);
+    cnv.position((windowWidth-width)/2,(windowHeight-height)/2); 
     rectMode(CENTER);
     angleMode(DEGREES); 
     //noStroke();
