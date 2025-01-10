@@ -9,6 +9,9 @@ const particles = [];
 
 var OFFSET = 0;
 
+console.log("hi")
+// setup();
+
 
 class Particle {
 	constructor(x, y) {
@@ -73,7 +76,9 @@ function generate_particles() {
 
 
 function setup() {
-	createCanvas(windowWidth, windowHeight);
+	console.log("yo")
+	let canvas = createCanvas(windowWidth, windowHeight);
+	canvas.position(0,0);
 
 	generate_particles();
 	background(0,0,0);

@@ -85,10 +85,15 @@ canvas {
 }
 
 .program {
-  transition-duration: .3s;
   cursor: pointer;
+  color: #222;
+  text-decoration: none;
 }
 
-.program:hover {
+.program-anim {
+  transition-duration: .3s;
+}
+
+.program-anim:hover {
   transform: translateX(10px);
 }
