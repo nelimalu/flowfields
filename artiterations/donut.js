@@ -33,12 +33,6 @@ class Particle{
     if(this.finished){
         return;
     }
-    //fill(100*this.x/40+100,100*this.y/25+100,this.prevVector+100);
-    //fill(255);  
-    //stroke(100*this.x/40+100,100*this.y/25+100,this.prevVector+100);
-    //stroke(map(this.y,-height/20,height/20,33,255),map(this.y,-height/20,height/20,66,158)+map(-abs(this.x),-2,0,100,150),map(this.y,-height/20,height/20,156,0)) 
-    
-    
     //christmas tree
     if(treeBool){
         stroke(0,map(this.y,-height/20,height/20,66,158)+map(-abs(this.x),-3/4,0,100,150),map(-abs(this.y),-height/20,-5,0,100)) 
@@ -142,10 +136,12 @@ class Particle{
 
 
 let alpha=5;
+let cnv;
 function setup() {
     width = 800;    
     height = 500;
-    createCanvas(width, height);
+    cnv=createCanvas(width, height);
+    cnv.position((windowWidth-width)/2,(windowHeight-height)/2); 
     rectMode(CENTER);
     angleMode(DEGREES); 
     //noStroke();
@@ -159,6 +155,7 @@ function setup() {
       append(particles,new Particle())
     }
     background(0);
+    donut();
     slopeLines();
 }
 function draw() {
