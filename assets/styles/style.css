@@ -1,0 +1,94 @@
+@font-face {
+  font-family: coolvetica;
+  src: url("../fonts/coolvetica.otf");
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  font-family: coolvetica;
+  color: #222;
+
+}
+
+.main-container {
+  display: block;
+}
+
+canvas {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  filter: blur(10px);
+  z-index: -1;
+}
+
+.heading {
+  text-align: center;
+}
+
+.title {
+  font-size: 400%;
+  font-weight: light;
+
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -moz-text-fill-color: transparent;
+
+}
+
+.subtitle {
+  font-size: 100%;
+}
+
+.sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.section {
+  margin: 3vh;
+}
+
+.section-heading {
+  text-align: center;
+  text-decoration: underline;
+  font-size: 150%;
+}
+
+.programs {
+  padding-left: 4vw;
+  padding-right: 4vw;
+}
+
+.program {
+  transition-duration: .3s;
+  cursor: pointer;
+}
+
+.program:hover {
+  transform: translateX(10px);
+}

@@ -1,6 +1,6 @@
 const PIXEL_SIZE = 30;
 const OCTAVE = 2;
-const NUM_PARTICLES = 10000;
+const NUM_PARTICLES = 1000;
 
 const PARTICLE_MAG = 3;
 const VECTOR_MAG = PARTICLE_MAG / 10;
@@ -52,7 +52,7 @@ class Particle {
 	}
 
 	draw() {
-		stroke(0,0,0,3);
+		stroke(0,0,255,5);
 		//noStroke();
 		// ellipse(this.x, this.y, 1, 1);
 		let angle = atan2(this.prev_y - this.y, this.prev_x - this.x);
@@ -88,3 +88,4 @@ function draw() {
 		particle.draw();
 	}
 }
+
