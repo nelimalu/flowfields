@@ -9,6 +9,8 @@ let heartBool=false;
 let waterBool=false;
 let forestBool=false;
 let sunBool=false;
+let donutBool=false;
+let testBool=false;
 
 let respawn=true;
 let antiFlip=false;
@@ -67,7 +69,20 @@ class Particle{
             stroke(0)
         }
     }
+
+    //donut
+    if(donutBool){
+        if(dist(this.x,this.y,0,0)<24 && dist(this.x,this.y,0,0)>6){
+            stroke('#f1b166')
+        }else{
+            stroke(0)
+        }
+    }
     
+    //test
+    if(testBool){
+        stroke(255);
+    }
     
     strokeWeight(3);
     line(10*this.x,10*this.y,this.prevX*10,this.prevY*10); 
@@ -194,6 +209,10 @@ function slopeEquation(x,y){
     slope = Math.tan(10000*x)
   }else if(sunBool){
     slope= 2-x*y/100;
+  }else if(donutBool){
+    slope = -x/y
+  }else if(testBool){
+    slope=x+y;
   }
   
   return slope;
@@ -206,6 +225,8 @@ function tree(){
     waterBool=false;
     forestBool=false;
     sunBool=false;
+    donutBool=false;
+    testBool=false; 
     alpha=1
     vel=1;
     antiFlip=false;
@@ -229,6 +250,8 @@ function heart(){
     waterBool=false;
     forestBool=false;
     sunBool=false;
+    donutBool=false;
+    testBool=false;
     alpha=20
     vel=5;
     antiFlip=false;
@@ -252,6 +275,8 @@ function water(){
     waterBool=true;
     forestBool=false;
     sunBool=false;
+    donutBool=false;
+    testBool=false;
     alpha=10
     vel=5;
     antiFlip=false;
@@ -275,6 +300,8 @@ function forest(){
     waterBool=false;
     forestBool=true;
     sunBool=false;
+    donutBool=false;
+    testBool=false;
     alpha=10
     vel=5;
     antiFlip=false;
@@ -298,6 +325,8 @@ function sun(){
     waterBool=false;
     forestBool=false;
     sunBool=true;
+    donutBool=false;
+    testBool=false;
     alpha=10
     vel=5;
     antiFlip=true;
@@ -306,6 +335,59 @@ function sun(){
         particles[i].scaleX=1;
         particles[i].scaleY=1;
         particles[i].timeStart=100;
+        particles[i].timer=particles[i].timeStart;
+        particles[i].negative = int(random(0,2))*2-1;
+        particles[i].spawnX();
+        particles[i].spawnY();
+    }
+    slopeLines();
+}
+
+function donut(){
+    background(0)
+    treeBool=false;
+    heartBool=false;
+    waterBool=false;
+    forestBool=false;
+    sunBool=false;
+    donutBool=true;
+    testBool=false;
+    alpha=5
+    vel=4;
+    antiFlip=true;
+    respawn=true;
+    for(let i=0;i<particleCount;i++){
+        particles[i].scaleX=3;
+        particles[i].scaleY=3;
+        particles[i].timeStart=100000;
+        particles[i].timer=particles[i].timeStart;
+        particles[i].negative = int(random(0,2))*2-1;
+        particles[i].spawnX();
+        particles[i].spawnY();
+    }
+    slopeLines();
+}
+let scaleX=5;
+let scaleY=5;
+let timeStart=1000;
+
+function test(){
+    background(0)
+    treeBool=false;
+    heartBool=false;
+    waterBool=false;
+    forestBool=false;
+    sunBool=false;
+    donutBool=false;
+    testBool=true;
+    alpha=10
+    vel=2;
+    antiFlip=true;
+    respawn=true;
+    for(let i=0;i<particleCount;i++){
+        particles[i].scaleX=scaleX;
+        particles[i].scaleY=scaleY;
+        particles[i].timeStart=timeStart;
         particles[i].timer=particles[i].timeStart;
         particles[i].negative = int(random(0,2))*2-1;
         particles[i].spawnX();
